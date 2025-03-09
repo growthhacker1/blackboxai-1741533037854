@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.vehicleSystem = vehicleSystem; // Make it globally accessible
 
     // Add event listeners for the new cargo button
-    const newCargoBtn = document.querySelector('button');
+    const newCargoBtn = document.querySelector('[data-action="new-cargo"]');
     if (newCargoBtn) {
         newCargoBtn.addEventListener('click', () => {
             // TODO: Implement new cargo form modal
