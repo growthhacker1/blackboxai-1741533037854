@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargo Transport Management System - Nepal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1d4ed8',
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        input, select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+            outline: none;
+        }
+        input:focus, select:focus {
+            border-color: #3b82f6;
+            ring: 2px;
+            ring-color: #93c5fd;
+        }
+        .notification-toast {
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-6">Login</h2>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white transition-transform duration-300 transform">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold">Cargo Management</h1>
+        </div>
+        <nav class="mt-6">
+            <a href="index.html" class="flex items-center px-6 py-3 text-gray-100 bg-blue-900">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+            </a>
+            <a href="pages/cargo-tracking.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-truck mr-3"></i>
+                Cargo Tracking
+            </a>
+            <a href="pages/schedule.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-calendar mr-3"></i>
+                Schedule
+            </a>
+            <a href="pages/vehicles.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-car mr-3"></i>
+                Vehicles
+            </a>
+            <a href="pages/reports.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-file-alt mr-3"></i>
+                Reports
+            </a>
+            <a href="pages/settings.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-cog mr-3"></i>
+                Settings
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ml-64 p-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800">Dashboard</h2>
+                <p class="text-gray-600" id="nepaliDate">Loading Nepali Date...</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="newCargoBtn" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-plus mr-2"></i>New Cargo
+                </button>
+                <div class="relative">
+                    <img id="userAvatar" src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="Profile" class="w-10 h-10 rounded-full cursor-pointer">
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex items-center">
+                    <div class="p-3 bg-blue-100 rounded-full">
+                        <i class="fas fa-box text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-gray-500 text-sm">Total Cargo</h3>
+                        <p class="text-2xl font-semibold" data-stat="total">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex items-center">
+                    <div class="p-3 bg-green-100 rounded-full">
+                        <i class="fas fa-truck text-green-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-gray-500 text-sm">In Transit</h3>
+                        <p class="text-2xl font-semibold" data-stat="inTransit">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex items-center">
+                    <div class="p-3 bg-yellow-100 rounded-full">
+                        <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-gray-500 text-sm">Pending</h3>
+                        <p class="text-2xl font-semibold" data-stat="pending">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300">
+                <div class="flex items-center">
+                    <div class="p-3 bg-purple-100 rounded-full">
+                        <i class="fas fa-check-circle text-purple-600 text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <h3 class="text-gray-500 text-sm">Delivered</h3>
+                        <p class="text-2xl font-semibold" data-stat="delivered">0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts and Tables -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Recent Shipments -->
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-4">Recent Shipments</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="bg-gray-50">
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destination</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Statistics -->
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-4">Monthly Statistics</h3>
+                    <canvas id="monthlyStats" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/masterData.js"></script>
+    <script src="js/accounting.js"></script>
+    <script src="js/btdConfig.js"></script>
+    <script src="js/billingManifest.js"></script>
+    <script src="js/goodsManagement.js"></script>
+    <script src="js/reportsEnquiry.js"></script>
+    <script src="js/userSettings.js"></script>
+    <script src="js/cargo.js"></script>
+    <script src="js/modal.js"></script>
+
+    <script>
+        // Initialize systems when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show login modal by default
+            const loginModal = document.getElementById('loginModal');
+            loginModal.style.display = 'flex';
+
+            // Handle login form submission
+            document.getElementById('loginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const user = window.userManagement.login(username, password);
+                    loginModal.style.display = 'none';
+                    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=0D8ABC&color=fff`;
+                } catch (error) {
+                    window.userManagement.notifyError(error.message);
+                }
+            });
+
+            // Monthly Statistics Chart
+            const ctx = document.getElementById('monthlyStats').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Magh', 'Falgun', 'Chaitra', 'Baisakh', 'Jestha', 'Ashar'],
+                    datasets: [{
+                        label: 'Cargo Deliveries',
+                        data: [65, 59, 80, 81, 56, 55],
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Initialize Nepali Date
+            function updateNepaliDate() {
+                document.getElementById('nepaliDate').textContent = 'मिति: २०८० फाल्गुण २५';
+            }
+            updateNepaliDate();
+
+            // Create default super admin user if none exists
+            if (window.userManagement.users.length === 0) {
+                window.userManagement.createUser({
+                    username: 'admin',
+                    password: 'admin123',
+                    fullName: 'System Admin',
+                    email: 'admin@example.com',
+                    roleId: 1, // Super Admin
+                    branchId: 1
+                });
+            }
+        });
+    </script>
+</body>
+</html>
