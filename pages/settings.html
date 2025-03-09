@@ -15,25 +15,7 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Login Modal -->
-    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-lg p-8 max-w-md w-full">
-            <h2 class="text-2xl font-bold mb-6">Login</h2>
-            <form id="loginForm" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Username</label>
-                    <input type="text" id="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
-                </div>
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
-                    Login
-                </button>
-            </form>
-        </div>
-    </div>
+    <!-- Login Modal (temporarily disabled) -->
     <!-- Sidebar -->
     <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white transition-transform duration-300 transform">
         <div class="p-6">
@@ -287,48 +269,6 @@
         </div>
     </div>
 
-    <script>
-        // Initialize Nepali Date
-        // Initialize systems when document is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            // Show login modal by default
-            const loginModal = document.getElementById('loginModal');
-            loginModal.style.display = 'flex';
-
-            // Handle login form submission
-            document.getElementById('loginForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-
-                try {
-                    const user = window.userManagement.login(username, password);
-                    loginModal.style.display = 'none';
-                    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=0D8ABC&color=fff`;
-                } catch (error) {
-                    window.userManagement.notifyError(error.message);
-                }
-            });
-
-            // Initialize Nepali Date
-            function updateNepaliDate() {
-                document.getElementById('nepaliDate').textContent = 'मिति: २०८० फाल्गुण २५';
-            }
-            updateNepaliDate();
-
-            // Create default super admin user if none exists
-            if (window.userManagement.users.length === 0) {
-                window.userManagement.createUser({
-                    username: 'admin',
-                    password: 'admin123',
-                    fullName: 'System Admin',
-                    email: 'admin@example.com',
-                    roleId: 1, // Super Admin
-                    branchId: 1
-                });
-            }
-        });
-    </script>
     <!-- Scripts -->
     <script src="../js/masterData.js"></script>
     <script src="../js/accounting.js"></script>
@@ -341,5 +281,16 @@
     <script src="../js/modal.js"></script>
     <script src="../js/masterConfig.js"></script>
     <script src="../js/masterConfigUI.js"></script>
+
+    <script>
+        // Initialize systems when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Nepali Date
+            function updateNepaliDate() {
+                document.getElementById('nepaliDate').textContent = 'मिति: २०८० फाल्गुण २५';
+            }
+            updateNepaliDate();
+        });
+    </script>
 </body>
 </html>
