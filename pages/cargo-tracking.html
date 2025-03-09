@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargo Tracking - Transport Management System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-6">Login</h2>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white transition-transform duration-300 transform">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold">Cargo Management</h1>
+        </div>
+        <nav class="mt-6">
+            <a href="../index.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+            </a>
+            <a href="cargo-tracking.html" class="flex items-center px-6 py-3 text-gray-100 bg-blue-900">
+                <i class="fas fa-truck mr-3"></i>
+                Cargo Tracking
+            </a>
+            <a href="schedule.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-calendar mr-3"></i>
+                Schedule
+            </a>
+            <a href="vehicles.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-car mr-3"></i>
+                Vehicles
+            </a>
+            <a href="reports.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-file-alt mr-3"></i>
+                Reports
+            </a>
+            <a href="settings.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-cog mr-3"></i>
+                Settings
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ml-64 p-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800">Cargo Tracking</h2>
+                <p class="text-gray-600" id="nepaliDate">Loading Nepali Date...</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="Profile" class="w-10 h-10 rounded-full cursor-pointer">
+                </div>
+            </div>
+        </div>
+
+        <!-- Tracking Search -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <div class="max-w-xl mx-auto">
+                <div class="flex gap-4">
+                    <input type="text" placeholder="Enter Tracking ID" class="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                        Track
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Shipments -->
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h3 class="text-xl font-semibold mb-4">Active Shipments</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tracking ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Origin</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destination</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">#CRG2D5ZXQ1G</td>
+                            <td class="px-6 py-4 whitespace-nowrap">Kathmandu, Bagmati</td>
+                            <td class="px-6 py-4 whitespace-nowrap">Pokhara, Gandaki</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                    In Transit
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">2080-11-25</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Nepali Date
+        // Initialize systems when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show login modal by default
+            const loginModal = document.getElementById('loginModal');
+            loginModal.style.display = 'flex';
+
+            // Handle login form submission
+            document.getElementById('loginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const user = window.userManagement.login(username, password);
+                    loginModal.style.display = 'none';
+                    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=0D8ABC&color=fff`;
+                } catch (error) {
+                    window.userManagement.notifyError(error.message);
+                }
+            });
+
+            // Initialize Nepali Date
+            function updateNepaliDate() {
+                document.getElementById('nepaliDate').textContent = 'मिति: २०८० फाल्गुण २५';
+            }
+            updateNepaliDate();
+
+            // Create default super admin user if none exists
+            if (window.userManagement.users.length === 0) {
+                window.userManagement.createUser({
+                    username: 'admin',
+                    password: 'admin123',
+                    fullName: 'System Admin',
+                    email: 'admin@example.com',
+                    roleId: 1, // Super Admin
+                    branchId: 1
+                });
+            }
+        });
+    </script>
+    <!-- Scripts -->
+    <script src="../js/masterData.js"></script>
+    <script src="../js/accounting.js"></script>
+    <script src="../js/btdConfig.js"></script>
+    <script src="../js/billingManifest.js"></script>
+    <script src="../js/goodsManagement.js"></script>
+    <script src="../js/reportsEnquiry.js"></script>
+    <script src="../js/userSettings.js"></script>
+    <script src="../js/cargo.js"></script>
+    <script src="../js/modal.js"></script>
+</body>
+</html>
