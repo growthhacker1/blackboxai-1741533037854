@@ -169,6 +169,7 @@ class MasterConfigUI {
 
         // Clear previous form
         form.innerHTML = '';
+        form.setAttribute('novalidate', 'true');
 
         // Set title
         title.textContent = id ? 'Edit Item' : 'Add New Item';
@@ -180,11 +181,15 @@ class MasterConfigUI {
         this.formFields[this.currentTab].forEach(field => {
             const value = item ? item[field.name] : '';
             form.innerHTML += `
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">${field.label}</label>
-                    <input type="${field.type}" name="${field.name}" value="${value}"
-                        ${field.required ? 'required' : ''}
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">${field.label}</label>
+                    <input type="${field.type}" 
+                           name="${field.name}" 
+                           value="${value}"
+                           novalidate
+                           placeholder="Enter ${field.label.toLowerCase()}"
+                           class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <div class="text-red-600 text-sm mt-1 hidden" data-error="${field.name}"></div>
                 </div>
             `;
         });
@@ -210,9 +215,49 @@ class MasterConfigUI {
     handleFormSubmit() {
         const form = document.getElementById('configForm');
         const formData = {};
+        let isValid = true;
+
+        // Validate and collect form data
         this.formFields[this.currentTab].forEach(field => {
-            formData[field.name] = form.elements[field.name].value;
+            const input = form.elements[field.name];
+            const errorDiv = input.parentElement.querySelector(`[data-error="${field.name}"]`);
+            const value = input.value.trim();
+
+            // Clear previous error
+            errorDiv.textContent = '';
+            errorDiv.classList.add('hidden');
+            input.classList.remove('border-red-500');
+
+            // Validate required fields
+            if (field.required && !value) {
+                errorDiv.textContent = `${field.label} is required`;
+                errorDiv.classList.remove('hidden');
+                input.classList.add('border-red-500');
+                isValid = false;
+            }
+
+            // Additional validation based on field type
+            if (value) {
+                if (field.type === 'tel' && !/^\+?[\d\s-]+$/.test(value)) {
+                    errorDiv.textContent = 'Please enter a valid phone number';
+                    errorDiv.classList.remove('hidden');
+                    input.classList.add('border-red-500');
+                    isValid = false;
+                }
+                if (field.type === 'number' && isNaN(value)) {
+                    errorDiv.textContent = 'Please enter a valid number';
+                    errorDiv.classList.remove('hidden');
+                    input.classList.add('border-red-500');
+                    isValid = false;
+                }
+            }
+
+            formData[field.name] = value;
         });
+
+        if (!isValid) {
+            return;
+        }
 
         try {
             window.masterConfig.add(this.currentTab, formData);
