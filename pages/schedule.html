@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule - Transport Management System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-6">Login</h2>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white transition-transform duration-300 transform">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold">Cargo Management</h1>
+        </div>
+        <nav class="mt-6">
+            <a href="../index.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+            </a>
+            <a href="cargo-tracking.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-truck mr-3"></i>
+                Cargo Tracking
+            </a>
+            <a href="schedule.html" class="flex items-center px-6 py-3 text-gray-100 bg-blue-900">
+                <i class="fas fa-calendar mr-3"></i>
+                Schedule
+            </a>
+            <a href="vehicles.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-car mr-3"></i>
+                Vehicles
+            </a>
+            <a href="reports.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-file-alt mr-3"></i>
+                Reports
+            </a>
+            <a href="settings.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-cog mr-3"></i>
+                Settings
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ml-64 p-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800">Schedule</h2>
+                <p class="text-gray-600" id="nepaliDate">Loading Nepali Date...</p>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-plus mr-2"></i>New Schedule
+                </button>
+                <div class="relative">
+                    <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="Profile" class="w-10 h-10 rounded-full cursor-pointer">
+                </div>
+            </div>
+        </div>
+
+        <!-- Calendar View -->
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Delivery Calendar</h3>
+                <div class="flex space-x-2">
+                    <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                        Today
+                    </button>
+                    <button class="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="grid grid-cols-7 gap-4">
+                <!-- Calendar Header -->
+                <div class="text-center font-medium text-gray-500">Sun</div>
+                <div class="text-center font-medium text-gray-500">Mon</div>
+                <div class="text-center font-medium text-gray-500">Tue</div>
+                <div class="text-center font-medium text-gray-500">Wed</div>
+                <div class="text-center font-medium text-gray-500">Thu</div>
+                <div class="text-center font-medium text-gray-500">Fri</div>
+                <div class="text-center font-medium text-gray-500">Sat</div>
+
+                <!-- Calendar Days -->
+                <!-- Week 1 -->
+                <div class="h-32 border rounded-lg p-2">
+                    <div class="text-right text-gray-400">25</div>
+                </div>
+                <div class="h-32 border rounded-lg p-2">
+                    <div class="text-right">26</div>
+                    <div class="mt-2 text-xs bg-blue-100 text-blue-800 p-1 rounded">
+                        2 Deliveries
+                    </div>
+                </div>
+                <div class="h-32 border rounded-lg p-2">
+                    <div class="text-right">27</div>
+                </div>
+                <div class="h-32 border rounded-lg p-2">
+                    <div class="text-right">28</div>
+                    <div class="mt-2 text-xs bg-green-100 text-green-800 p-1 rounded">
+                        1 Pickup
+                    </div>
+                </div>
+                <div class="h-32 border rounded-lg p-2">
+                    <div class="text-right">29</div>
+                </div>
+                <div class="h-32 border rounded-lg p-2">
+                    <div class="text-right">30</div>
+                </div>
+                <div class="h-32 border rounded-lg p-2">
+                    <div class="text-right">31</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Deliveries -->
+        <div class="bg-white rounded-lg shadow-sm p-6">
+            <h3 class="text-xl font-semibold mb-4">Upcoming Deliveries</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tracking ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Destination</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Scheduled Date</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">#CRG2D5ZXQ1G</td>
+                            <td class="px-6 py-4 whitespace-nowrap">Pokhara, Gandaki</td>
+                            <td class="px-6 py-4 whitespace-nowrap">2080-11-26</td>
+                            <td class="px-6 py-4 whitespace-nowrap">KTM-2345</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Scheduled
+                                </span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap space-x-2">
+                                <button class="text-blue-600 hover:text-blue-800">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-red-600 hover:text-red-800">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Nepali Date
+        // Initialize systems when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show login modal by default
+            const loginModal = document.getElementById('loginModal');
+            loginModal.style.display = 'flex';
+
+            // Handle login form submission
+            document.getElementById('loginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const user = window.userManagement.login(username, password);
+                    loginModal.style.display = 'none';
+                    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=0D8ABC&color=fff`;
+                } catch (error) {
+                    window.userManagement.notifyError(error.message);
+                }
+            });
+
+            // Initialize Nepali Date
+            function updateNepaliDate() {
+                document.getElementById('nepaliDate').textContent = 'मिति: २०८० फाल्गुण २५';
+            }
+            updateNepaliDate();
+
+            // Create default super admin user if none exists
+            if (window.userManagement.users.length === 0) {
+                window.userManagement.createUser({
+                    username: 'admin',
+                    password: 'admin123',
+                    fullName: 'System Admin',
+                    email: 'admin@example.com',
+                    roleId: 1, // Super Admin
+                    branchId: 1
+                });
+            }
+        });
+    </script>
+    <!-- Scripts -->
+    <script src="../js/masterData.js"></script>
+    <script src="../js/accounting.js"></script>
+    <script src="../js/btdConfig.js"></script>
+    <script src="../js/billingManifest.js"></script>
+    <script src="../js/goodsManagement.js"></script>
+    <script src="../js/reportsEnquiry.js"></script>
+    <script src="../js/userSettings.js"></script>
+    <script src="../js/cargo.js"></script>
+    <script src="../js/modal.js"></script>
+</body>
+</html>
