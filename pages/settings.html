@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Transport Management System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-6">Login</h2>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 w-64 bg-blue-800 text-white transition-transform duration-300 transform">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold">Cargo Management</h1>
+        </div>
+        <nav class="mt-6">
+            <a href="../index.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+            </a>
+            <a href="cargo-tracking.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-truck mr-3"></i>
+                Cargo Tracking
+            </a>
+            <a href="schedule.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-calendar mr-3"></i>
+                Schedule
+            </a>
+            <a href="vehicles.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-car mr-3"></i>
+                Vehicles
+            </a>
+            <a href="reports.html" class="flex items-center px-6 py-3 text-gray-300 hover:bg-blue-900">
+                <i class="fas fa-file-alt mr-3"></i>
+                Reports
+            </a>
+            <a href="settings.html" class="flex items-center px-6 py-3 text-gray-100 bg-blue-900">
+                <i class="fas fa-cog mr-3"></i>
+                Settings
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="ml-64 p-8">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800">Settings</h2>
+                <p class="text-gray-600" id="nepaliDate">Loading Nepali Date...</p>
+            </div>
+            <div class="relative">
+                <img src="https://ui-avatars.com/api/?name=User&background=0D8ABC&color=fff" alt="Profile" class="w-10 h-10 rounded-full cursor-pointer">
+            </div>
+        </div>
+
+        <!-- Settings Sections -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Profile Settings -->
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4">Profile Settings</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" value="System Admin" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" value="admin@example.com" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                        <input type="tel" value="+977-9841234567" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        Update Profile
+                    </button>
+                </form>
+            </div>
+
+            <!-- Security Settings -->
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4">Security Settings</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
+                        <input type="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                        <input type="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
+                        <input type="password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        Change Password
+                    </button>
+                </form>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4">Notification Settings</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="font-medium">Email Notifications</h4>
+                            <p class="text-sm text-gray-500">Receive updates via email</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="font-medium">SMS Notifications</h4>
+                            <p class="text-sm text-gray-500">Receive updates via SMS</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h4 class="font-medium">Desktop Notifications</h4>
+                            <p class="text-sm text-gray-500">Show desktop notifications</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Settings -->
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4">System Settings</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Default Language</label>
+                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>English</option>
+                            <option>नेपाली</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Time Zone</label>
+                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>Asia/Kathmandu (GMT+5:45)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
+                        <select class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>BS (Nepali)</option>
+                            <option>AD (English)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Settings -->
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h3 class="text-xl font-semibold mb-4">Company Settings</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+                        <input type="text" value="Nepal Transport Services" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                        <input type="text" value="Kathmandu, Nepal" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Contact Number</label>
+                        <input type="tel" value="+977-01-4567890" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">PAN/VAT Number</label>
+                        <input type="text" value="123456789" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                        Update Company Info
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Nepali Date
+        // Initialize systems when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show login modal by default
+            const loginModal = document.getElementById('loginModal');
+            loginModal.style.display = 'flex';
+
+            // Handle login form submission
+            document.getElementById('loginForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const user = window.userManagement.login(username, password);
+                    loginModal.style.display = 'none';
+                    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.fullName)}&background=0D8ABC&color=fff`;
+                } catch (error) {
+                    window.userManagement.notifyError(error.message);
+                }
+            });
+
+            // Initialize Nepali Date
+            function updateNepaliDate() {
+                document.getElementById('nepaliDate').textContent = 'मिति: २०८० फाल्गुण २५';
+            }
+            updateNepaliDate();
+
+            // Create default super admin user if none exists
+            if (window.userManagement.users.length === 0) {
+                window.userManagement.createUser({
+                    username: 'admin',
+                    password: 'admin123',
+                    fullName: 'System Admin',
+                    email: 'admin@example.com',
+                    roleId: 1, // Super Admin
+                    branchId: 1
+                });
+            }
+        });
+    </script>
+    <!-- Scripts -->
+    <script src="../js/masterData.js"></script>
+    <script src="../js/accounting.js"></script>
+    <script src="../js/btdConfig.js"></script>
+    <script src="../js/billingManifest.js"></script>
+    <script src="../js/goodsManagement.js"></script>
+    <script src="../js/reportsEnquiry.js"></script>
+    <script src="../js/userSettings.js"></script>
+    <script src="../js/cargo.js"></script>
+    <script src="../js/modal.js"></script>
+</body>
+</html>
